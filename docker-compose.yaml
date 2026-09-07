@@ -1,0 +1,13 @@
+services:
+  casa-do-hamburguer:
+    container_name: casa-do-hamburguer-container
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    image: ray-matias/casa-do-hamburguer/1.0.0:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules

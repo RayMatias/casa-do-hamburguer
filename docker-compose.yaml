@@ -1,13 +1,25 @@
 services:
-  casa-do-hamburguer:
-    container_name: casa-do-hamburguer-container
-    build: 
+  web:
+    container_name: casa-do-hamburguer-app
+    build:
       context: .
       dockerfile: Dockerfile
       target: dev
-    image: ray-matias/casa-do-hamburguer/1.0.0:latest
+    image: ray-matias/casa-do-hamburguer:1.0.0
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
+    environment:
+      - DATABASE_URL=postgres://admin:adm123@postgres-db:5432/hamburgueria_db
+
+  postgres-db:
+    container_name: casa-do-hamburguer-db
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adm123
+      POSTGRES_DB: hamburgueria_db

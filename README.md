@@ -6,7 +6,7 @@ Antes de começar, certifique-se de ter o **Docker** e o **Docker Compose** inst
 ### Passo a Passo
 
 ### Navegue até a pasta do projeto:
-    "cd spotify-projeto"
+    "cd casa-do-hamburguer"
 
     Inicie os containers:
     "docker compose up"

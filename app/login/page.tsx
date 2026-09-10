@@ -1,17 +1,49 @@
-import { ContainerTextLogin } from "../Components/sections/ContainerTextLogin"
-import { FormLogin } from "../Components/sections/FormLogin"
+import { ContainerTextLogin } from "../components/sections/ContainerTextLogin"
+import { FormLogin } from "../components/sections/FormLogin"
+import Image from "next/image"
+import { ButtonLogin } from "../components/ui/ButtonLogin"
+import { GoogleIcon } from "../components/ui/GoogleIcon"
 
 export default function Login(){
     return(
-        <div className="grid grid-cols-12 w-full bg-[#050505] min-h-screen content-start">
-            <div className="col-start-2 col-end-11 flex flex-col gap-4 h-auto mb-4">
-                <ContainerTextLogin/>
+        <div className="relative grid grid-cols-12 w-full bg-[#050505] min-h-screen content-start">
+            <div className="w-ful col-start-1 col-end-13 md:col-start-6 md:col-end-13 md:order-2 md:h-screen overflow-hidden">
+                <Image src="/images/burger-house-mobile.png" 
+                alt="Imagem de um Hamburguer" 
+                width={1000} 
+                height={600}
+                priority
+                className="w-full h-auto object-cover md:hidden"></Image>
+                <Image 
+                src="/images/burger-house-desktop.png" 
+                alt="Imagem de um Hambúrguer" 
+                width={1920} 
+                height={1080}
+                priority
+                className="hidden md:block w-full h-auto object-cover"
+                />
             </div>
-            <div className="col-start-2 col-end-12 flex flex-col gap-4">
-                <FormLogin></FormLogin> 
-            </div>
-            <div>
-                
+            <div className="col-start-2 col-end-12 flex flex-col gap-4 h-auto md:col-end-5">
+                <div className="w-full">
+                    <ContainerTextLogin/>
+                </div>
+                <div className="w-full">
+                    <FormLogin></FormLogin> 
+                </div>
+                <div className="flex items-center my-4 ">
+                    <div className="flex-1 h-0.5 bg-[#262626]" />
+                    <span className="px-3 text-[12px] text-[#B8BBC0] leading-none">ou</span>
+                    <div className="flex-1 h-0.5 bg-[#262626]" />
+                </div>
+                <div>
+                    <ButtonLogin variant="secondary">
+                        <GoogleIcon/>
+                        <span>Entrar com o Google</span>
+                    </ButtonLogin>
+                </div>
+                <div className="w-full text-center mb-5">
+                    <p className="text-[#B8BBC0] text-[11px]">Ainda não tem conta?<a href="#" className="text-[#FFB000] hover:underline ml-3">Cadastre-se</a></p>
+                </div>
             </div>
         </div>
     )

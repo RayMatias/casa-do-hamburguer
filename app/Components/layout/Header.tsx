@@ -11,7 +11,7 @@ export function Header(){
                 width={75}  
                 height={50} 
                 priority
-                className="md:w-25 h-auto"
+                className="md:w-18 h-auto"
                 />
                 <MenuButton/>
             </div>

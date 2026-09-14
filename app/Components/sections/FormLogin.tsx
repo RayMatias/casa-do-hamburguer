@@ -1,12 +1,12 @@
 import { Input } from "../ui/Input"
 import { Mail,KeyRound} from "lucide-react"
 import { LoginFormOptions } from "./LoginFormOptions"
-import { ButtonLogin } from "../ui/ButtonLogin"
+import { MainButton } from "../ui/MainButton"
 import { ArrowRight } from "lucide-react";
 
 export function FormLogin(){
     return(
-        <div className="flex flex-col gap-3">
+        <form action={""} className="flex flex-col gap-3">
             <div className="flex flex-row relative items-center w-full">
                 <Mail className=" left-3 w-5 h-5 text-[#B8BBC0] absolute z-10"/>
                 <Input type="email" placeholder="E-mail ou Cpf"/>
@@ -17,12 +17,11 @@ export function FormLogin(){
             </div>
             <div className="flex flex-col gap-3">
                 <LoginFormOptions/>
-                <ButtonLogin variant="primary">
+                <MainButton variant="primary">
                     <span>Entrar</span>
                     <ArrowRight className="w-5 h-5 text-black" />
-                </ButtonLogin>
+                </MainButton>
             </div>
-            
-        </div>
+        </form>
     )
 }

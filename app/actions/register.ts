@@ -7,8 +7,9 @@ export async function registerUser(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const phone = formData.get("phone") as string;
 
-  if (!email || !password) {
+  if (!email || !password || !phone) {
     return { error: "E-mail e senha são obrigatórios." };
   }
 
@@ -27,6 +28,7 @@ export async function registerUser(formData: FormData) {
       name,
       email,
       password: hashedPassword,
+      phone
     },
   });
 

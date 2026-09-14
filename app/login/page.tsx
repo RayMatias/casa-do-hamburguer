@@ -1,13 +1,13 @@
 import { ContainerTextLogin } from "../components/sections/ContainerTextLogin"
 import { FormLogin } from "../components/sections/FormLogin"
 import Image from "next/image"
-import { ButtonLogin } from "../components/ui/ButtonLogin"
+import { MainButton } from "../components/ui/MainButton"
 import { GoogleIcon } from "../components/ui/GoogleIcon"
 
 export default function Login(){
     return(
-        <div className="relative grid grid-cols-12 w-full bg-[#050505] min-h-screen content-start">
-            <div className="w-ful col-start-1 col-end-13 md:col-start-6 md:col-end-13 md:order-2 md:h-screen overflow-hidden">
+        <div className="relative grid grid-cols-12 w-full bg-[#050505] min-h-screen items-start">
+            <div className="w-ful col-start-1 col-end-13 md:col-start-6 md:col-end-13 md:sticky md:top-0 md:order-2 md:h-screen overflow-hidden">
                 <Image src="/images/burger-house-mobile.png" 
                 alt="Imagem de um Hamburguer" 
                 width={1000} 
@@ -36,10 +36,10 @@ export default function Login(){
                     <div className="flex-1 h-0.5 bg-[#262626]" />
                 </div>
                 <div>
-                    <ButtonLogin variant="secondary">
+                    <MainButton variant="secondary">
                         <GoogleIcon/>
                         <span>Entrar com o Google</span>
-                    </ButtonLogin>
+                    </MainButton>
                 </div>
                 <div className="w-full text-center mb-5">
                     <p className="text-[#B8BBC0] text-[11px]">Ainda não tem conta?<a href="#" className="text-[#FFB000] hover:underline ml-3">Cadastre-se</a></p>

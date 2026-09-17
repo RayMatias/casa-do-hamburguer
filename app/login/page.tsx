@@ -1,8 +1,7 @@
 import { ContainerTextLogin } from "../components/sections/ContainerTextLogin"
 import { FormLogin } from "../components/sections/FormLogin"
 import Image from "next/image"
-import { MainButton } from "../components/ui/MainButton"
-import { GoogleIcon } from "../components/ui/GoogleIcon"
+import { GoogleButton } from "../components/ui/GoogleButton"
 
 export default function Login(){
     return(
@@ -36,10 +35,7 @@ export default function Login(){
                     <div className="flex-1 h-0.5 bg-[#262626]" />
                 </div>
                 <div>
-                    <MainButton variant="secondary">
-                        <GoogleIcon/>
-                        <span>Entrar com o Google</span>
-                    </MainButton>
+                    <GoogleButton></GoogleButton>
                 </div>
                 <div className="w-full text-center mb-5">
                     <p className="text-[#B8BBC0] text-[11px]">Ainda não tem conta?<a href="#" className="text-[#FFB000] hover:underline ml-3">Cadastre-se</a></p>

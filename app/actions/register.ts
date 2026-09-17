@@ -3,32 +3,49 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
-export async function registerUser(formData: FormData) {
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const phone = formData.get("phone") as string;
 
-  if (!email || !password || !phone) {
-    return { error: "E-mail e senha são obrigatórios." };
-  }
+export async function registerUser(_prevState:unknown,formData: FormData) {
+  const entries = Array.from(formData.entries());
+  const data = Object.fromEntries(entries) as {
+    nameUser:string;
+    emailUser:string;
+    phoneUser:string;
+    passwordUser:string;
+    confirmPasswordUser:string;
+    cepUser:string;
+    streetUser:string;
+    neighbourhoodUser:string;
+    PointOfReferenceUser:string;
+  };
+  
+  if (!data.nameUser || !data.emailUser || !data.passwordUser || !data.phoneUser || !data.phoneUser || !data.cepUser || !data.streetUser || !data.neighbourhoodUser || !data.confirmPasswordUser) {
+    return { error: "Você precisa preencher todos os dados!!!" }
+  };
 
   const existingUser = await prisma.user.findUnique({
-    where: { email },
+    where:{
+      email:data.emailUser
+    }
   });
 
   if (existingUser) {
-    return { error: "Este e-mail já está cadastrado." };
+    return { error: "Esse email já existe" }
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  if (data.passwordUser !== data.confirmPasswordUser) {
+    return { error: "As senhas não coincidem." };
+  }
+
+  const hashedPassword = await bcrypt.hash(data.passwordUser, 10);
 
   await prisma.user.create({
     data: {
-      name,
-      email,
-      password: hashedPassword,
-      phone
+      name: data.nameUser,email:data.emailUser,phone:data.phoneUser,password:hashedPassword, 
+      addresses:{
+        create:{
+          zipCode:data.cepUser,street:data.streetUser,neighborhood:data.neighbourhoodUser, reference:data.PointOfReferenceUser
+        }
+      }
     },
   });
 

@@ -1,13 +1,12 @@
 import { ContainerTextLogin } from "../components/sections/ContainerTextLogin"
 import { FormLogin } from "../components/sections/FormLogin"
 import Image from "next/image"
-import { MainButton } from "../components/ui/MainButton"
-import { GoogleIcon } from "../components/ui/GoogleIcon"
+import { GoogleButton } from "../components/ui/GoogleButton"
 
 export default function Login(){
     return(
         <div className="relative grid grid-cols-12 w-full bg-[#050505] min-h-screen items-start">
-            <div className="w-ful col-start-1 col-end-13 md:col-start-6 md:col-end-13 md:sticky md:top-0 md:order-2 md:h-screen overflow-hidden">
+            <section className="w-ful col-start-1 col-end-13 md:col-start-6 md:col-end-13 md:sticky md:top-0 md:order-2 md:h-screen overflow-hidden">
                 <Image src="/images/burger-house-mobile.png" 
                 alt="Imagem de um Hamburguer" 
                 width={1000} 
@@ -22,29 +21,26 @@ export default function Login(){
                 priority
                 className="hidden md:block w-full h-auto object-cover"
                 />
-            </div>
-            <div className="col-start-2 col-end-12 flex flex-col gap-4 h-auto md:col-end-5">
-                <div className="w-full">
+            </section>
+            <section className="col-start-2 col-end-12 flex flex-col gap-4 h-auto md:col-end-5">
+                <article className="w-full">
                     <ContainerTextLogin/>
-                </div>
-                <div className="w-full">
+                </article>
+                <article className="w-full">
                     <FormLogin></FormLogin> 
-                </div>
-                <div className="flex items-center my-4 ">
+                </article>
+                <article className="flex items-center my-4 ">
                     <div className="flex-1 h-0.5 bg-[#262626]" />
                     <span className="px-3 text-[12px] text-[#B8BBC0] leading-none">ou</span>
                     <div className="flex-1 h-0.5 bg-[#262626]" />
-                </div>
-                <div>
-                    <MainButton variant="secondary">
-                        <GoogleIcon/>
-                        <span>Entrar com o Google</span>
-                    </MainButton>
-                </div>
-                <div className="w-full text-center mb-5">
+                </article>
+                <article>
+                    <GoogleButton></GoogleButton>
+                </article>
+                <article className="w-full text-center mb-5">
                     <p className="text-[#B8BBC0] text-[11px]">Ainda não tem conta?<a href="#" className="text-[#FFB000] hover:underline ml-3">Cadastre-se</a></p>
-                </div>
-            </div>
+                </article>
+            </section>
         </div>
     )
 }

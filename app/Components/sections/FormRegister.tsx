@@ -16,7 +16,7 @@ export function FormRegister(){
             {state?.error && <ContainerError>{state.error}</ContainerError>}
             {state?.success && <ContainerSuccess>{state.success}</ContainerSuccess>}
             <Form action={formAction} className="w-full flex-1">
-                <div className="w-full flex gap-1 flex-col flex-1">
+                <section className="w-full flex gap-1 flex-col flex-1">
                     <LabelForms htmlFor="name">
                         <User className="w-4 h-4"></User>
                         Nome Completo</LabelForms>
@@ -66,7 +66,7 @@ export function FormRegister(){
                         <span>Cadastrar</span>
                         <ArrowRight className="w-5 h-5 text-black" />
                     </MainButton>
-                </div>
+                </section>
             </Form>
         </div>
     )

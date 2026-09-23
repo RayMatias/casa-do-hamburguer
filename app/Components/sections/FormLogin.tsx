@@ -16,21 +16,21 @@ export function FormLogin(){
         <div>
             {state?.error && <ContainerError>{state.error}</ContainerError>}
             <Form action={formAction} className="flex flex-col gap-3">
-                <div className="flex flex-row relative items-center w-full">
+                <section className="flex flex-row relative items-center w-full">
                     <Mail className=" left-3 w-5 h-5 text-[#B8BBC0] absolute z-10"/>
                     <Input name="email" type="email" placeholder="E-mail"/>
-                </div>
-                <div className="flex flex-row relative items-center w-full">
+                </section>
+                <section className="flex flex-row relative items-center w-full">
                     <KeyRound className=" left-3 w-5 h-5 text-[#B8BBC0] absolute z-10"/>
                     <Input name="password" type="password" placeholder="Senha"/>
-                </div>
-                <div className="flex flex-col gap-3">
+                </section>
+                <section className="flex flex-col gap-3">
                     <LoginFormOptions/>
                     <MainButton variant="primary">
                         <span>Entrar</span>
                         <ArrowRight className="w-5 h-5 text-black" />
                     </MainButton>
-                </div>
+                </section>
             </Form>
         </div>
         )

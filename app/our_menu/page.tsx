@@ -3,7 +3,13 @@ import { NavBar } from "../components/sections/NavBar"
 import { SectionTitle } from "../components/ui/SectionTitle"
 import { CategoriesSection } from "../components/sections/CategoriesSection"
 import { ProductCardSection } from "../components/sections/ProductCardSection"
-export default function OurMenu(){
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
+export default async function OurMenu(){
+    const session = await auth();
+    if(!session){
+        return redirect("/login")
+    }
     return(
         <div className="bg-[#050505] px-2 min-h-screen items-start md:grid md:grid-cols-12 md:px-0 ">
             <aside className="md:col-span-2 md:sticky md:h-screen md:top-0  md:block  md:inset-auto fixed bottom-0 inset-x-0 z-50">

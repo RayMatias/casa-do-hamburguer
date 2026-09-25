@@ -4,7 +4,25 @@ import { CartButton } from "../ui/CartButton"
 import { UserProfileButton } from "../ui/UserProfileButton"
 import Image from "next/image"; 
 
-export function HeaderHome(){
+import { auth } from "@/auth"
+import { prisma } from "@/lib/prisma"
+
+export async function HeaderHome(){
+
+    const session = await auth()
+    let userName = "Visitante"
+
+    if (session?.user?.email) {
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { name: true }
+      })
+
+      if (user?.name) {
+        userName = user.name
+      }
+    }
+
     return(
         <div className="w-full flex justify-between mb-2 items-center md:grid md:grid-cols-12">
             <section className="md:hidden">
@@ -18,7 +36,7 @@ export function HeaderHome(){
                 />
             </section>
             <section className="hidden md:flex md:justify-between gap-6 md:col-start-1 md:col-end-4 md:items-center">
-                <UserGreenting></UserGreenting>
+                <UserGreenting name={userName}></UserGreenting>
             </section>
             <section className="hidden md:flex md:justify-between gap-6 md:col-start-6 md:col-end-12 md:items-center">
                 <SearchBar></SearchBar>

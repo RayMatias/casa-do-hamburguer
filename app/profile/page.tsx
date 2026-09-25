@@ -4,8 +4,14 @@ import { ProfileHeader } from "../components/sections/ProfileHeader"
 import { SectionTitle } from "../components/ui/SectionTitle"
 import { ProfileInfoRowList } from "../components/sections/ProfileInfoRowList"
 import { UserAddressSection } from "../components/sections/UserAddressSection"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
-export default function OurMenu(){
+export default async function Profile(){
+    const session = await auth();
+    if(!session){
+        return redirect("/login")
+    }
     return(
         <div className="bg-[#050505] px-2 min-h-screen items-start md:grid md:grid-cols-12 md:px-0 ">
             <aside className="md:col-span-2 md:sticky md:h-screen md:top-0  md:block  md:inset-auto fixed bottom-0 inset-x-0 z-50">

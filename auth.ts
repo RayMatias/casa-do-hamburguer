@@ -22,4 +22,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return user
     }
   })],
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub; // Garante que o id do banco vai para session.user.id
+      }
+      return session;
+    },
+  },
 });

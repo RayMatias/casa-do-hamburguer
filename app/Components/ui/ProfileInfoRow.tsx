@@ -1,4 +1,4 @@
-import { MainButton } from "../ui/MainButton"
+import { EditProfileButtonPhone } from "./EditProfileButtonPhone"
 
 interface ProfileInfoRowProps{
     label:string
@@ -20,7 +20,7 @@ export function ProfileInfoRow({label,value,children, variant="off"}:ProfileInfo
                 <p className="text-[#777B80] text-[12px] md:text-[16px]">{value}</p>
             </div>
             <div className={`${variantStyleEdit[variant]} `}>
-                <MainButton size="text-[10px]" variant="third">Editar</MainButton>
+                <EditProfileButtonPhone initialPhone={value}></EditProfileButtonPhone>
             </div>
         </div>
     )

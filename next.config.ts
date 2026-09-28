@@ -1,16 +1,39 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
+
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
+
   webpack: (config, { dev }) => {
     if (dev) {
       config.watchOptions = {
-        poll: 1000,          // Checa por alterações a cada 1 segundo (1000ms)
-        aggregateTimeout: 300, // Aguarda 300ms após a alteração antes de recompilar
+        poll: 1000,         
+        aggregateTimeout: 300, 
       };
     }
     return config;
   },
 };
-module.exports = nextConfig;
+
 export default nextConfig;

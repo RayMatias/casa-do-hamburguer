@@ -12,13 +12,15 @@ export async function registerUser(_prevState:unknown,formData: FormData) {
     phoneUser:string;
     passwordUser:string;
     confirmPasswordUser:string;
+    city:string
+    reference:string
     cepUser:string;
     streetUser:string;
     neighbourhoodUser:string;
     PointOfReferenceUser:string;
   };
   
-  if (!data.nameUser || !data.emailUser || !data.passwordUser || !data.phoneUser || !data.phoneUser || !data.cepUser || !data.streetUser || !data.neighbourhoodUser || !data.confirmPasswordUser) {
+  if (!data.nameUser || !data.emailUser || !data.passwordUser || !data.phoneUser || !data.phoneUser || !data.cepUser || !data.streetUser || !data.neighbourhoodUser || !data.confirmPasswordUser || !data.city) {
     return { error: "Você precisa preencher todos os dados!!!" }
   };
 
@@ -43,11 +45,13 @@ export async function registerUser(_prevState:unknown,formData: FormData) {
       name: data.nameUser,email:data.emailUser,phone:data.phoneUser,password:hashedPassword, 
       addresses:{
         create:{
-          zipCode:data.cepUser,street:data.streetUser,neighborhood:data.neighbourhoodUser, reference:data.PointOfReferenceUser
+          zipCode:data.cepUser,street:data.streetUser,neighborhood:data.neighbourhoodUser, reference:data.reference, city:data.city
         }
       }
     },
   });
+
+
 
   return { success: "Usuário cadastrado com sucesso!" };
 }

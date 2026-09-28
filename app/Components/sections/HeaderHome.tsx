@@ -1,8 +1,7 @@
 import { UserGreenting } from "../ui/UserGreeting" 
-import { SearchBar } from "../ui/SearchBar" 
 import { CartButton } from "../ui/CartButton" 
-import { UserProfileButton } from "../ui/UserProfileButton"
 import Image from "next/image"; 
+import { IconProfile } from "../ui/IconProfile";
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
@@ -38,12 +37,9 @@ export async function HeaderHome(){
             <section className="hidden md:flex md:justify-between gap-6 md:col-start-1 md:col-end-4 md:items-center">
                 <UserGreenting name={userName}></UserGreenting>
             </section>
-            <section className="hidden md:flex md:justify-between gap-6 md:col-start-6 md:col-end-12 md:items-center">
-                <SearchBar></SearchBar>
-            </section>
             <section className="flex gap-6 md:col-start-13 md:col-end-13 md:items-center">
                 <CartButton></CartButton>
-                <UserProfileButton></UserProfileButton>
+                <IconProfile height="h-10" width="w-10"></IconProfile>
             </section>
         </div>
     )

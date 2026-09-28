@@ -3,9 +3,9 @@ import { NavBar } from "../components/sections/NavBar"
 import { ProfileHeader } from "../components/sections/ProfileHeader"
 import { SectionTitle } from "../components/ui/SectionTitle"
 import { ProfileInfoRowList } from "../components/sections/ProfileInfoRowList"
-import { UserAddressSection } from "../components/sections/UserAddressSection"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { UserAddressContainer } from "../components/sections/UserAddressesContainer"
 
 export default async function Profile(){
     const session = await auth();
@@ -24,14 +24,14 @@ export default async function Profile(){
                 <section className="w-full px-4 mt-4">
                     <ProfileHeader></ProfileHeader>
                 </section>
-                <section className="md:flex md:flex-1 md:w-full md:gap-3 md:p-4">
+                <section className="md:flex md:flex-1 md:w-full md:gap-3 md:p-4 items-start">
                     <article className="w-full px-4 py-4 mt-4 gap-4 flex rounded-[10px] flex-col border border-[#777B80]">
                         <SectionTitle variant="text-[22px]">Informações Pessoais</SectionTitle>
                         <ProfileInfoRowList></ProfileInfoRowList>
                     </article>
                     <article className="w-full px-4 py-4 mt-4 gap-4 flex rounded-[10px] flex-col border border-[#777B80]">
                         <SectionTitle variant="text-[22px]">Meus Endereços</SectionTitle>
-                        <UserAddressSection street="José Candido do Nascimento" neighborhood="São Bernardo" postalCode="58865000" city="São Bento-PB"></UserAddressSection>
+                        <UserAddressContainer></UserAddressContainer>
                     </article>
                 </section>
             </main>

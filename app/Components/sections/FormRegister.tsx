@@ -37,6 +37,11 @@ export function FormRegister(){
                         CEP</LabelForms>
                     <Input name="cepUser" id="cep" type="text" placeholder="Digite seu CEP" variant="secondary"></Input>
 
+                    <LabelForms htmlFor="city">
+                        <MapPin className="w-4 h-4"></MapPin>
+                        Cidade</LabelForms>
+                    <Input name="city" id="cep" type="text" placeholder="Digite seu CEP" variant="secondary"></Input>
+
                     <LabelForms htmlFor="street">
                         <Navigation className="w-4 h-4"></Navigation>
                         Rua / Logradouro</LabelForms>

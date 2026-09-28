@@ -1,6 +1,6 @@
 interface UserProfileInfoProps{
     children:React.ReactNode
-    email:string
+    email:string|null
 }
 
 

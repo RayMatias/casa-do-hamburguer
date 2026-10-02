@@ -1,19 +1,7 @@
-## 🚀 Como Executar a Aplicação
+# 🍔 Delivery App — Plataforma Fullstack de Pedidos & Gestão (BURGER HOUSE)
 
-### Pré-requisitos
-Antes de começar, certifique-se de ter o **Docker** e o **Docker Compose** instalados em sua máquina.
+> Uma plataforma web moderna de delivery desenvolvida para oferecer uma experiência fluida tanto para o cliente final quanto para a gestão do estabelecimento. O projeto utiliza a arquitetura mais recente do **Next.js (App Router)**, priorizando Server Components, segurança de sessão e alta performance.
 
-### Passo a Passo
+---
 
-### Navegue até a pasta do projeto:
-    "cd casa-do-hamburguer"
-
-    Inicie os containers:
-    "docker compose up"
-    Nota: Para rodar em segundo plano e liberar o terminal, utilize "docker compose up -d".
-
-    Acesse no navegador:
-    URL: http://localhost:3000
-
-    Encerrar a aplicação:
-    "docker compose down"
+## 📸 Demonstração Visual

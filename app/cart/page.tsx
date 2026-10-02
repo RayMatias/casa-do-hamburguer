@@ -68,12 +68,14 @@ export default function OrdersPage() {
   }, [session?.user?.id, status, router])
 
   const formatCurrency = (val: number | { toNumber?: () => number }) => {
-    const num = typeof val === "number" ? val : Number(val)
+    if (typeof val === "number") return val.toFixed(2)
+    if (val && typeof val.toNumber === "function") return val.toNumber().toFixed(2)
+    const num = Number(val)
     return isNaN(num) ? "0.00" : num.toFixed(2)
   }
 
   const getStatusBadge = (orderStatus: string) => {
-    switch (orderStatus.toUpperCase()) {
+    switch (orderStatus?.toUpperCase()) {
       case "COMPLETED":
       case "DELIVERED":
         return (
@@ -172,13 +174,13 @@ export default function OrdersPage() {
 
             {/* Itens do Pedido */}
             <div className="p-4 flex flex-col gap-3">
-              {order.items.map((item) => {
+              {order.items?.map((item: OrderItem) => {
                 const itemPrice = typeof item.price === "number" ? item.price : Number(item.price)
-                const itemTotal = item.quantity * itemPrice
+                const itemTotal = item.quantity * (isNaN(itemPrice) ? 0 : itemPrice)
 
                 return (
                   <div key={item.id} className="flex items-center gap-4">
-                    {item.product.imageUrl ? (
+                    {item.product?.imageUrl ? (
                       <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#2A2D30]">
                         <Image
                           src={item.product.imageUrl}
@@ -195,7 +197,7 @@ export default function OrdersPage() {
 
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-sm leading-tight truncate">
-                        {item.product.name}
+                        {item.product?.name}
                       </h4>
                       <span className="text-xs text-[#B8BBC0]">
                         Qtd: {item.quantity} x R$ {formatCurrency(item.price)}

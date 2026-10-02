@@ -31,7 +31,7 @@ export function NavBar(){
                         Cardápio
                     </ButtonNav>
                 </Link>
-                <Link href={"/our_menu"} className="flex-1">
+                <Link href={"/orders"} className="flex-1">
                     <ButtonNav>
                         <Package></Package>
                         <span className="md:block hidden">Meus Pedidos</span>

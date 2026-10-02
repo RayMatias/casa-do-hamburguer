@@ -31,10 +31,10 @@ export function UserAddressSection({initialAddresses = []}:UserAddressSectionPro
         setLoading(false);
 
         if (result?.error) {
-        setError(result.error);
+            setError(result.error);
         } else {
-        setIsOpen(false);
-        (event.target as HTMLFormElement).reset();
+            setIsOpen(false);
+            (event.target as HTMLFormElement).reset();
         }
     }
 

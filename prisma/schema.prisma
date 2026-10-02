@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -15,11 +21,14 @@ model User {
   image         String?
   password      String?
   phone         String?
+  role  Role    @default(USER)
   addresses Address[]
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  orders Order[]
 }
 
 model Address {
@@ -37,6 +46,62 @@ model Address {
   updatedAt    DateTime @updatedAt
 }
 
+enum OrderStatus {
+  PREPARING
+  ON_THE_WAY
+  DELIVERED
+  CANCELED
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String   
+  slug      String    @unique 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  products  Product[]
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  name        String
+  description String
+  price       Decimal     @db.Decimal(10, 2)
+  imageUrl    String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  status    OrderStatus @default(PREPARING)
+  total     Decimal     @db.Decimal(10, 2)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2) // Preço unitário no momento da compra
+
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+}
 
 model Account {
   id                String  @id @default(cuid())
@@ -56,6 +121,7 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
 
 model Session {
   id           String   @id @default(cuid())

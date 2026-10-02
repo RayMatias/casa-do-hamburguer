@@ -11,7 +11,7 @@ import { getUserOrders } from "../actions/getUserOrders"
 interface OrderItem {
   id: string
   quantity: number
-  price: number
+  price: number | { toNumber?: () => number }
   product: {
     name: string
     imageUrl: string | null
@@ -20,7 +20,7 @@ interface OrderItem {
 
 interface Order {
   id: string
-  total: number
+  total: number | { toNumber?: () => number }
   status: string
   createdAt: string | Date
   items: OrderItem[]
@@ -49,7 +49,7 @@ export default function OrdersPage() {
       try {
         const data = await getUserOrders(userId)
         if (isMounted) {
-          setOrders(data)
+          setOrders(data as unknown as Order[])
         }
       } catch (error) {
         console.error("Erro ao carregar pedidos:", error)
@@ -66,6 +66,11 @@ export default function OrdersPage() {
       isMounted = false
     }
   }, [session?.user?.id, status, router])
+
+  const formatCurrency = (val: number | { toNumber?: () => number }) => {
+    const num = typeof val === "number" ? val : Number(val)
+    return isNaN(num) ? "0.00" : num.toFixed(2)
+  }
 
   const getStatusBadge = (orderStatus: string) => {
     switch (orderStatus.toUpperCase()) {
@@ -167,44 +172,49 @@ export default function OrdersPage() {
 
             {/* Itens do Pedido */}
             <div className="p-4 flex flex-col gap-3">
-              {order.items.map((item) => (
-                <div key={item.id} className="flex items-center gap-4">
-                  {item.product.imageUrl ? (
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#2A2D30]">
-                      <Image
-                        src={item.product.imageUrl}
-                        alt={item.product.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-12 h-12 bg-[#2A2D30] rounded-lg shrink-0 flex items-center justify-center">
-                      <Package size={20} className="text-[#B8BBC0]" />
-                    </div>
-                  )}
+              {order.items.map((item) => {
+                const itemPrice = typeof item.price === "number" ? item.price : Number(item.price)
+                const itemTotal = item.quantity * itemPrice
 
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-sm leading-tight truncate">
-                      {item.product.name}
-                    </h4>
-                    <span className="text-xs text-[#B8BBC0]">
-                      Qtd: {item.quantity} x R$ {item.price.toFixed(2)}
+                return (
+                  <div key={item.id} className="flex items-center gap-4">
+                    {item.product.imageUrl ? (
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#2A2D30]">
+                        <Image
+                          src={item.product.imageUrl}
+                          alt={item.product.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 bg-[#2A2D30] rounded-lg shrink-0 flex items-center justify-center">
+                        <Package size={20} className="text-[#B8BBC0]" />
+                      </div>
+                    )}
+
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-sm leading-tight truncate">
+                        {item.product.name}
+                      </h4>
+                      <span className="text-xs text-[#B8BBC0]">
+                        Qtd: {item.quantity} x R$ {formatCurrency(item.price)}
+                      </span>
+                    </div>
+
+                    <span className="font-bold text-sm text-zinc-200">
+                      R$ {formatCurrency(itemTotal)}
                     </span>
                   </div>
-
-                  <span className="font-bold text-sm text-zinc-200">
-                    R$ {(item.quantity * item.price).toFixed(2)}
-                  </span>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             {/* Rodapé do Pedido */}
             <div className="p-4 bg-[#161719] border-t border-[#2A2D30] flex justify-between items-center">
               <span className="text-sm text-[#B8BBC0]">Total do Pedido</span>
               <span className="font-bold text-lg text-[#FBA716]">
-                R$ {order.total.toFixed(2)}
+                R$ {formatCurrency(order.total)}
               </span>
             </div>
           </div>

@@ -1,8 +1,8 @@
-import { NavBarAdmin } from "../componentes/sections/NavBarAdmin";
-import { HeaderAdmin } from "../componentes/sections/HeaderAdmin";
-import { MenuHeader } from "../componentes/sections/MenuHeader";
+import { NavBarAdmin } from "../components/sections/NavBarAdmin";
+import { HeaderAdmin } from "../components/sections/HeaderAdmin";
+import { MenuHeader } from "../components/sections/MenuHeader";
 import { CategoriesSection } from "@/app/components/sections/CategoriesSection";
-import { ProductCardSection } from "../componentes/sections/ProductCardSection";
+import { ProductCardSection } from "../components/sections/ProductCardSection";
 
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"

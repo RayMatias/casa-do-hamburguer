@@ -23,9 +23,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }
   })],
   callbacks: {
+
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+
     async session({ session, token }) {
       if (session.user && token.sub) {
-        session.user.id = token.sub; // Garante que o id do banco vai para session.user.id
+        session.user.id = token.sub; 
+      }
+
+      if (token.role) {
+        session.user.role = token.role; 
       }
       return session;
     },

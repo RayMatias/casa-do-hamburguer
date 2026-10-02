@@ -1,8 +1,10 @@
 "use server";
 
-import { signIn } from "../../auth";
+import { auth, signIn } from "../../auth";
 import { AuthError } from "next-auth";
-import { cookies } from "next/headers"
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 
 
 async function handleRememberMe(formData: FormData) {
@@ -23,16 +25,35 @@ async function handleRememberMe(formData: FormData) {
 }
 
 export default async function login(_prevState:unknown,formData:FormData){
-    try{
-        await handleRememberMe(formData);
-        await signIn("credentials",formData)
-    }catch(error){
-        if (error instanceof AuthError){
-            if (error.type === "CredentialsSignin"){
-                return { error: "E-mail ou senha incorretos." };
-            }
-            return { error: "Erro ao tentar realizar o login." };
-        }
-        throw error;
+
+  let targetUrl = "/home";
+
+  try{
+    await handleRememberMe(formData);
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,});
+
+      const user = await prisma.user.findUnique({
+      where: { email },
+      select: { role: true },});
+
+      if (user?.role === "ADMIN") {
+        targetUrl = "/admin/home";
+      } else {
+        targetUrl = "/home";}
+  }catch(error){
+    if (error instanceof AuthError){
+      if (error.type === "CredentialsSignin"){
+        return { error: "E-mail ou senha incorretos." };
+      }
+      return { error: "Erro ao tentar realizar o login." };
     }
+      throw error;
+    }
+
+  redirect(targetUrl);
 }

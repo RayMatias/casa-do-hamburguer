@@ -11,7 +11,10 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - ./node_modules/.prisma:/app/node_modules/.prisma
+      - ./node_modules/@prisma:/app/node_modules/@prisma
     environment:
+      - WATCHPACK_POLLING=true
       - DATABASE_URL=postgres://admin:adm123@postgres-db:5432/hamburgueria_db
 
   postgres-db:

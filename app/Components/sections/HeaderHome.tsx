@@ -2,6 +2,8 @@ import { UserGreenting } from "../ui/UserGreeting"
 import { CartButton } from "../ui/CartButton" 
 import Image from "next/image"; 
 import { IconProfile } from "../ui/IconProfile";
+import Link from 'next/link'
+
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
@@ -38,7 +40,9 @@ export async function HeaderHome(){
                 <UserGreenting name={userName}></UserGreenting>
             </section>
             <section className="flex gap-6 md:col-start-13 md:col-end-13 md:items-center">
-                <CartButton></CartButton>
+                <Link href={"/cart"} className="flex-1">
+                    <CartButton></CartButton>
+                </Link>
                 <IconProfile height="h-10" width="w-10"></IconProfile>
             </section>
         </div>

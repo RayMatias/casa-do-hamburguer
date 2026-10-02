@@ -2,7 +2,7 @@ import { HeaderHome } from "../components/sections/HeaderHome"
 import { NavBar } from "../components/sections/NavBar" 
 import Image from "next/image"
 import { SectionTitle } from "../components/ui/SectionTitle"
-import { CategoriesSection } from "../components/sections/CategoriesSection"
+// import { CategoriesSection } from "../components/sections/CategoriesSection"
 import { ProductCardSection } from "../components/sections/ProductCardSection"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
@@ -39,8 +39,6 @@ export default async function Home(){
                     </div >
                 </section>
                 <section className="w-full px-4 mt-4">
-                    <SectionTitle>Nossas categorias</SectionTitle>
-                    <CategoriesSection></CategoriesSection>
                     <SectionTitle>Destaques da casa</SectionTitle>
                     <ProductCardSection></ProductCardSection>
                 </section>

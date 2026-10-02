@@ -1,5 +1,5 @@
 "use client"
-import { MainButton } from "@/app/components/ui/MainButton"
+import { MainButton } from "@/app/components/ui/MainButton";
 import { useState } from "react";
 
 import { createCategory } from "../../actions/createCategory";

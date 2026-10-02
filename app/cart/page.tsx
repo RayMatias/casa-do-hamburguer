@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, Package, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react"
-import { getUserOrders } from "@/app/actions/getUserOrders"
+import { getUserOrders } from "../actions/getUserOrders"
 
 interface OrderItem {
   id: string

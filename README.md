@@ -63,39 +63,85 @@ Abaixo podes conferir o funcionamento das principais telas do sistema, tanto na 
 6. Perfil do Utilizador
 
 ### 1. Autenticação (Login)
+
+**Versão Desktop:**
 <div align="center">
-  <img src="./public/GIF/logindesktop-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Login Desktop" />
-  <img src="./public/GIF/loginmobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Login Mobile" />
+  <img src="./public/GIF/logindesktop-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Login Desktop" />
 </div>
+
+**Versão Mobile:**
+<div align="center">
+  <img src="./public/GIF/loginmobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Login Mobile" />
+</div>
+
+---
 
 ### 2. Registo de Utilizador (Cadastro)
+
+**Versão Desktop:**
 <div align="center">
-  <img src="./public/GIF/cadastroDescktop-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Cadastro Desktop" />
-  <img src="./public/GIF/cadastromobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Cadastro Mobile" />
+  <img src="./public/GIF/cadastroDescktop-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Cadastro Desktop" />
 </div>
+
+**Versão Mobile:**
+<div align="center">
+  <img src="./public/GIF/cadastromobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Cadastro Mobile" />
+</div>
+
+---
 
 ### 3. Gestão e Criação de Produtos (Cadastro de Produtos)
+
+**Versão Desktop:**
 <div align="center">
-  <img src="./public/GIF/cadastroProdutoDesktop-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Cadastro de Produto Desktop" />
-  <img src="./public/GIF/CadastrarProdutoMobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Cadastro de Produto Mobile" />
+  <img src="./public/GIF/cadastroProdutoDesktop-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Cadastro de Produto Desktop" />
 </div>
+
+**Versão Mobile:**
+<div align="center">
+  <img src="./public/GIF/CadastrarProdutoMobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Cadastro de Produto Mobile" />
+</div>
+
+---
 
 ### 4. Fluxo de Pedidos (Cardápio e Carrinho)
+
+**Versão Desktop:**
 <div align="center">
-  <img src="./public/GIF/fazendoPedidoDesltop-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Fazendo Pedido Desktop" />
-  <img src="./public/GIF/PedidosMobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Pedidos Mobile" />
+  <img src="./public/GIF/fazendoPedidoDesltop-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Fazendo Pedido Desktop" />
 </div>
+
+**Versão Mobile:**
+<div align="center">
+  <img src="./public/GIF/PedidosMobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Pedidos Mobile" />
+</div>
+
+---
 
 ### 5. Listagem e Gestão de Pedidos (Painel de Administração e Lista)
+
+**Versão Desktop:**
 <div align="center">
-  <img src="./public/GIF/TabelasPedidosADM-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Tabela de Pedidos ADM" />
-  <img src="./public/GIF/ListaPedidosMobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Lista de Pedidos Mobile" />
+  <img src="./public/GIF/TabelasPedidosADM-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Tabela de Pedidos ADM" />
 </div>
 
-### 6. Perfil do Utilizador
+**Versão Mobile:**
 <div align="center">
-  <img src="./public/GIF/PerfilDescktop-ezgif.com-video-to-gif-converter.gif" width="65%" alt="Perfil Desktop" />
-  <img src="./public/GIF/PerfilMobile-ezgif.com-video-to-gif-converter.gif" width="30%" alt="Perfil Mobile" />
+  <img src="./public/GIF/ListaPedidosMobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Lista de Pedidos Mobile" />
+</div>
+
+---
+
+### 6. Perfil do Utilizador
+
+**Versão Desktop:**
+<div align="center">
+  <img src="./public/GIF/PerfilDescktop-ezgif.com-video-to-gif-converter.gif" width="100%" alt="Perfil Desktop" />
+</div>
+
+**Versão Mobile:**
+<div align="center">
+  <img src="./public/GIF/PerfilMobile-ezgif.com-video-to-gif-converter.gif" width="40%" alt="Perfil Mobile" />
 </div>
 
 

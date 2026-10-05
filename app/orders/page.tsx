@@ -10,7 +10,7 @@ export default async function UserOrdersPage() {
   if (!session?.user?.id) {
     return redirect("/login")
   }
-
+  
   const orders = await getUserOrders(session.user.id)
 
   return (

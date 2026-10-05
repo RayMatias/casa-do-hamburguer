@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { MainButton } from "../ui/MainButton";
+import { MainButton } from "./MainButton";
 import type { Address } from "@prisma/client";
 import { updateAddress } from "@/app/actions/updateAddress";
 

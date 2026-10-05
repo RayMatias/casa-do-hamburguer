@@ -4,7 +4,7 @@ import { useState, ChangeEvent } from "react"
 import { updateProfileImage } from "@/app/actions/upload-profile-image"
 import Image from "next/image"
 
-import { MainButton } from "../ui/MainButton"
+import { MainButton } from "./MainButton"
 export function EditProfileButton(){
 
     const [isOpen, setIsOpen] = useState(false)

@@ -1,226 +1,189 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Package, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react"
-import { getUserOrders } from "../actions/getUserOrders"
+import { ArrowLeft, Package, Trash2, Plus, Minus, ShoppingCart, Loader2 } from "lucide-react"
+import { useCartStore } from "../actions/useCartStore"
+import { createOrder } from "@/app/actions/createOrder"
 
-interface OrderItem {
-  id: string
-  quantity: number
-  price: number | { toNumber?: () => number }
-  product: {
-    name: string
-    imageUrl: string | null
-  }
-}
-
-interface Order {
-  id: string
-  total: number | { toNumber?: () => number }
-  status: string
-  createdAt: string | Date
-  items: OrderItem[]
-}
-
-export default function OrdersPage() {
+export default function CartPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [orders, setOrders] = useState<Order[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isCheckingOut, setIsCheckingOut] = useState(false)
 
-  useEffect(() => {
-    if (status === "loading") return
+  // Puxa os dados e funções do Zustand
+  const cart = useCartStore((state) => state.cart)
+  const removeFromCart = useCartStore((state) => state.removeFromCart)
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const getTotal = useCartStore((state) => state.getTotal)
+  const clearCart = useCartStore((state) => state.clearCart)
 
-    if (status === "unauthenticated") {
+  const formatCurrency = (val: number) => {
+    return val.toFixed(2)
+  }
+
+  const handleCheckout = async () => {
+    if (status === "unauthenticated" || !session?.user?.id) {
       router.push("/login")
       return
     }
 
-    let isMounted = true
+    if (cart.length === 0) return
 
-    async function loadOrders() {
-      const userId = session?.user?.id
-      if (!userId) return
+    try {
+      setIsCheckingOut(true)
 
-      try {
-        const data = await getUserOrders(userId)
-        if (isMounted) {
-          setOrders(data as unknown as Order[])
-        }
-      } catch (error) {
-        console.error("Erro ao carregar pedidos:", error)
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
+      // Mapeia o carrinho do Zustand para o formato esperado pela tua Server Action
+      const itemsInput = cart.map((item) => ({
+        productId: item.id, // ID do produto na base de dados
+        quantity: item.quantity,
+        price: item.price,
+      }))
+
+      // Passa o userId correto da sessão ativa e os itens mapeados
+      const result = await createOrder({
+        userId: session.user.id,
+        items: itemsInput,
+      })
+
+      if (result.success) {
+        clearCart() // Limpa o carrinho local do Zustand/localStorage
+        router.push("/orders") // Redireciona para a página de pedidos
+      } else {
+        alert("Erro ao finalizar o pedido. Tenta novamente.")
       }
-    }
-
-    loadOrders()
-
-    return () => {
-      isMounted = false
-    }
-  }, [session?.user?.id, status, router])
-
-  const formatCurrency = (val: number | { toNumber?: () => number }) => {
-    if (typeof val === "number") return val.toFixed(2)
-    if (val && typeof val.toNumber === "function") return val.toNumber().toFixed(2)
-    const num = Number(val)
-    return isNaN(num) ? "0.00" : num.toFixed(2)
-  }
-
-  const getStatusBadge = (orderStatus: string) => {
-    switch (orderStatus?.toUpperCase()) {
-      case "COMPLETED":
-      case "DELIVERED":
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            <CheckCircle2 size={14} /> Entregue
-          </span>
-        )
-      case "PENDING":
-      case "PREPARING":
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-[#FBA716] border border-amber-500/20">
-            <Clock size={14} /> Em preparo
-          </span>
-        )
-      default:
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-zinc-500/10 text-zinc-400 border border-zinc-500/20">
-            <AlertCircle size={14} /> {orderStatus}
-          </span>
-        )
+    } catch (error) {
+      console.error("Erro ao finalizar pedido:", error)
+      alert("Ocorreu um erro ao finalizar o pedido.")
+    } finally {
+      setIsCheckingOut(false)
     }
   }
 
-  if (isLoading || status === "loading") {
-    return (
-      <main className="min-h-screen bg-[#0E0F10] text-white flex items-center justify-center">
-        <div className="flex items-center gap-3 text-[#B8BBC0]">
-          <Loader2 className="animate-spin text-[#FBA716]" size={24} />
-          <span>Carregando seus pedidos...</span>
-        </div>
-      </main>
-    )
-  }
-
-  if (orders.length === 0) {
+  // Se o carrinho estiver vazio
+  if (cart.length === 0) {
     return (
       <main className="min-h-screen bg-[#0E0F10] text-white p-6 flex flex-col items-center justify-center gap-4 text-center">
         <div className="p-4 bg-[#121212] border border-[#2A2D30] rounded-full text-[#FBA716]">
-          <Package size={36} />
+          <ShoppingCart size={36} />
         </div>
-        <h1 className="text-2xl font-bold">Você ainda não fez nenhum pedido</h1>
+        <h1 className="text-2xl font-bold">Seu carrinho está vazio</h1>
         <p className="text-[#B8BBC0] max-w-sm">
-          Aproveite nosso cardápio e faça seu primeiro pedido agora mesmo!
+          Explore nosso cardápio e adicione delícias ao seu carrinho!
         </p>
         <Link
           href="/our_menu"
           className="bg-[#FBA716] text-black font-bold px-6 py-3 rounded-lg hover:bg-[#e09413] transition mt-2"
         >
-          Ir para o cardápio
+          Ver cardápio
         </Link>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-[#0E0F10] text-white p-4 md:p-8 max-w-4xl mx-auto">
+    <main className="min-h-screen bg-[#0E0F10] text-white p-4 md:p-8 max-w-4xl mx-auto pb-32 md:pb-12">
       <Link
         href="/our_menu"
         className="flex items-center gap-2 text-[#B8BBC0] hover:text-white mb-6 transition w-fit"
       >
-        <ArrowLeft size={20} /> Voltar ao cardápio
+        <ArrowLeft size={20} /> Continuar comprando
       </Link>
 
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">Meus Pedidos</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Seu Carrinho</h1>
 
       <div className="flex flex-col gap-6">
-        {orders.map((order) => (
-          <div
-            key={order.id}
-            className="border border-[#2A2D30] bg-[#121212] rounded-xl overflow-hidden"
-          >
-            {/* Cabeçalho do Pedido */}
-            <div className="p-4 bg-[#1A1C1E] border-b border-[#2A2D30] flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <span className="text-xs text-[#B8BBC0] block">Pedido</span>
-                <span className="font-mono text-xs font-semibold text-zinc-300">
-                  #{order.id.slice(-8).toUpperCase()}
-                </span>
-              </div>
-
-              <div>
-                <span className="text-xs text-[#B8BBC0] block">Data</span>
-                <span className="text-xs font-medium">
-                  {new Date(order.createdAt).toLocaleDateString("pt-BR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              </div>
-
-              <div>{getStatusBadge(order.status)}</div>
-            </div>
-
-            {/* Itens do Pedido */}
-            <div className="p-4 flex flex-col gap-3">
-              {order.items?.map((item: OrderItem) => {
-                const itemPrice = typeof item.price === "number" ? item.price : Number(item.price)
-                const itemTotal = item.quantity * (isNaN(itemPrice) ? 0 : itemPrice)
-
-                return (
-                  <div key={item.id} className="flex items-center gap-4">
-                    {item.product?.imageUrl ? (
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#2A2D30]">
-                        <Image
-                          src={item.product.imageUrl}
-                          alt={item.product.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 bg-[#2A2D30] rounded-lg shrink-0 flex items-center justify-center">
-                        <Package size={20} className="text-[#B8BBC0]" />
-                      </div>
-                    )}
-
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm leading-tight truncate">
-                        {item.product?.name}
-                      </h4>
-                      <span className="text-xs text-[#B8BBC0]">
-                        Qtd: {item.quantity} x R$ {formatCurrency(item.price)}
-                      </span>
-                    </div>
-
-                    <span className="font-bold text-sm text-zinc-200">
-                      R$ {formatCurrency(itemTotal)}
-                    </span>
+        <div className="border border-[#2A2D30] bg-[#121212] rounded-xl overflow-hidden p-3 sm:p-4 flex flex-col gap-4">
+          {cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex flex-col gap-3 border-b border-[#2A2D30] pb-4 last:border-b-0 last:pb-0"
+            >
+              {/* Linha superior: Imagem, Nome e Botão de apagar */}
+              <div className="flex items-start gap-3 w-full">
+                {item.imageUrl ? (
+                  <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-[#2A2D30]">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
-                )
-              })}
-            </div>
+                ) : (
+                  <div className="w-14 h-14 bg-[#2A2D30] rounded-lg shrink-0 flex items-center justify-center">
+                    <Package size={20} className="text-[#B8BBC0]" />
+                  </div>
+                )}
 
-            {/* Rodapé do Pedido */}
-            <div className="p-4 bg-[#161719] border-t border-[#2A2D30] flex justify-between items-center">
-              <span className="text-sm text-[#B8BBC0]">Total do Pedido</span>
-              <span className="font-bold text-lg text-[#FBA716]">
-                R$ {formatCurrency(order.total)}
-              </span>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-semibold text-sm leading-snug break-words">{item.name}</h4>
+                  <span className="text-xs text-[#FBA716] font-semibold block mt-0.5">
+                    R$ {formatCurrency(item.price)} cada
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-zinc-500 hover:text-red-400 transition p-1 shrink-0"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
+
+              {/* Linha inferior: Quantidade e Preço Total alinhados lado a lado */}
+              <div className="flex items-center justify-between w-full pt-1">
+                <div className="flex items-center gap-2 bg-[#1A1C1E] border border-[#2A2D30] rounded-lg p-1">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="p-1 hover:text-[#FBA716] transition"
+                  >
+                    <Minus size={14} />
+                  </button>
+                  <span className="text-sm font-bold px-2">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="p-1 hover:text-[#FBA716] transition"
+                  >
+                    <Plus size={14} />
+                  </button>
+                </div>
+
+                <span className="font-bold text-sm text-zinc-200">
+                  R$ {formatCurrency(item.price * item.quantity)}
+                </span>
+              </div>
             </div>
+          ))}
+        </div>
+
+        {/* Resumo do Carrinho e Checkout */}
+        <div className="bg-[#121212] border border-[#2A2D30] rounded-xl p-6 flex flex-col gap-4">
+          <div className="flex justify-between items-center text-lg font-bold">
+            <span className="text-[#B8BBC0]">Total geral</span>
+            <span className="text-[#FBA716] text-2xl">
+              R$ {formatCurrency(getTotal())}
+            </span>
           </div>
-        ))}
+
+          <button
+            onClick={handleCheckout}
+            disabled={isCheckingOut}
+            className="w-full bg-[#FBA716] text-black font-bold py-3.5 rounded-xl hover:bg-[#e09413] transition text-center cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {isCheckingOut ? (
+              <>
+                <Loader2 className="animate-spin" size={20} />
+                Processando pedido...
+              </>
+            ) : (
+              "Finalizar Pedido"
+            )}
+          </button>
+        </div>
       </div>
     </main>
   )

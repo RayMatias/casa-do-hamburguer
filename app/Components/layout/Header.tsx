@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MenuButton } from "../ui/MenuButton";
+// import { MenuButton } from "../ui/MenuButton";
 
 export function Header(){
     return(
@@ -13,7 +13,7 @@ export function Header(){
                 priority
                 className="md:w-18 h-auto"
                 />
-                <MenuButton/>
+                {/* <MenuButton/> */}
             </div>
         </div>
     )

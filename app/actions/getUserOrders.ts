@@ -1,6 +1,9 @@
+"use server"
+
 import { prisma } from "@/lib/prisma"
 
 export async function getUserOrders(userId: string) {
+  console.log("A procurar pedidos para o userId:", userId)
   try {
     const orders = await prisma.order.findMany({
       where: { userId },
